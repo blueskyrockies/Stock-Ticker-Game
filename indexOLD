@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>StockTicker</title>
+    <style>
+		td {
+			width:60px;
+			text-align:center;
+		}
+		.headerStyle {
+			font-size: 2em;
+		}
+		#myMoney {
+			font-size: 2em;			
+		}
+		p {
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+		#nameDIV {
+			background-color: yellow;
+			display: inline-block;
+		}
+		.numClass {
+			
+		}
+		
+		.cursor:active {
+			border: solid red 2px;
+		}
+		.controlBTN:active {
+			border: solid red 2px;
+		}
+		
+		#grainDIV {
+			width: 16%;
+			display: inline-block;
+			background-color: wheat;
+			text-align: center;
+			font-size: 2.0em;			
+		}
+		#goldDIV {
+			width: 16%;
+			display: inline-block;
+			background-color: gold;
+			text-align: center;
+			font-size: 2.0em;
+		}
+		#bondsDIV {
+			width: 16%;
+			display: inline-block;
+			background-color: #009933;
+			text-align: center;
+			font-size: 2.0em;
+		}
+		#oilDIV {
+			width: 16%;
+			display: inline-block;
+			background-color: #e67300;
+			text-align: center;
+			font-size: 2.0em;
+		}
+		#industDIV {
+			width: 16%;
+			display: inline-block;
+			background-color: #ffb3d9;
+			text-align: center;
+			font-size: 2.0em;
+		}
+		#silverDIV {
+			width: 16%;
+			display: inline-block;
+			background-color: silver;
+			text-align: center;
+			font-size: 2.0em;
+		}
+		.controlBTN {
+			margin: 20px;
+			border-radius: 14px;
+		}
+		#stockBTN,#amountBTN {
+			width: 16%;
+			display: inline-block;
+			background-color: silver;
+			text-align: center;
+			font-size: 2.0em;
+		}
+		#buyBTN,#sellBTN {
+			width: 10%;
+			display: inline-block;
+			background-color: silver;
+			text-align: center;
+			font-size: 2.0em;
+		}
+		#speedBTN {
+			width: 16%;
+			display: inline-block;
+			background-color: silver;
+			text-align: center;
+			font-size: 2.0em;
+		}
+		
+		#stockContainer {
+			display: inline-block;
+			width: 39%;
+			vertical-align: top;
+		}
+		#pGrain {			
+			background-color:wheat;
+			width:100%;
+			font-size:1.8em;
+		}
+		#pGold {			
+			background-color:gold;
+			width:100%;
+			font-size:1.8em;
+		}
+		#pBonds {			
+			background-color:#009933;
+			width:100%;
+			font-size:1.8em;
+		}
+		#pOil {			
+			background-color:#e67300;
+			width:100%;
+			font-size:1.8em;
+		}
+		#pIndust {			
+			background-color:#ffb3d9;
+			width:100%;
+			font-size:1.8em;
+		}
+		#pSilver {			
+			background-color:silver;
+			width:100%;
+			font-size:1.8em;
+		}
+		.pwidth {
+			display: inline-block;
+			width:56%;
+		}
+		.pValue {
+			display: inline-block;
+		}
+		
+		#gameChatContainer {
+			display: inline-block;
+			width: 30%;
+			vertical-align: top;
+		}
+		#playerChatContainer {
+			display: inline-block;
+			width: 30%;
+			vertical-align: top;
+		}		
+		
+		#playerChat {
+			border: solid green 1px;
+			display: block;
+			max-height: 200px;
+			overflow-y: scroll;
+		}
+		#gameChat {
+			border: solid green 1px;			
+			display: block;
+			max-height: 200px;
+			overflow-y: scroll;
+		}
+		@media screen and (min-height: 600px) {
+			#gameChat {
+				border: solid green 1px;			
+				display: block;
+				max-height: 300px;
+				overflow-y: scroll;
+			}
+			#playerChat {
+				border: solid green 1px;
+				display: block;
+				max-height: 300px;
+				overflow-y: scroll;
+			}
+		}
+		
+		#teamDIV {
+			float: left;
+		}
+	</style>
+</head>
+
+<body>
+	<div id='userIDDIV'>
+		<div id="nameDIV">Name:</div><input type="text" id="nameTXT" name="nameTXT" />
+		<button id='nameBTN' name='nameBTN'>Start Game</button>	
+	</div>
+	<div id='playerDIV' style='display:none;'>
+		<span id='nameHDR' class='headerStyle'></span>
+		&nbsp;&nbsp;&nbsp;<span class='headerStyle'>$</span><span id='myMoney'>0</span>
+		<div id='gameResets' style='float:right;'>
+			<button id='resetBTN' name='resetBTN'>Reset Game</button>
+			<button style ='margin-left:60px;' id='resetServerBTN' name='resetServerBTN'>Reset Server</button>
+		</div>
+	</div>
+	
+	<div id="gameArea" style='display:none;'>
+		
+		<div id="grainDIV" onclick='astockCLK(1);' class='cursor'>Grain<div class="numClass" id="grainTXT"></div></div>
+		<div id="goldDIV" onclick='astockCLK(2);' class='cursor'>Gold<div class="numClass" id="goldTXT"></div></div>
+		<div id="bondsDIV" onclick='astockCLK(3);' class='cursor'>Bonds<div class="numClass" id="bondsTXT"></div></div>
+		<div id="oilDIV" onclick='astockCLK(4);' class='cursor'>Oil<div class="numClass" id="oilTXT"></div></div>
+		<div id="industDIV" onclick='astockCLK(5);' class='cursor'>Industrial<div class="numClass" id="industTXT"></div></div>
+		<div id="silverDIV" onclick='astockCLK(6);' class='cursor'>Silver<div class="numClass" id="silverTXT"></div></div>		
+	</div>
+	
+	<div id='controlArea' style='display:none;'>
+		<div class='controlBTN' id='stockBTN' onclick='stockBTNCLK();'>Grain</div>
+		<div class='controlBTN' id='amountBTN' onclick='amtBTNCLK();'>100</div>
+		<div class='controlBTN' id='buyBTN'>Buy</div>
+		<div class='controlBTN' id='sellBTN'>Sell</div>
+		<div class='controlBTN' id='speedBTN' onclick='speedBTNCLK();'>Slow</div>
+	</div>
+
+	<div id='stockContainer'>
+		<div id='pGrain'><div class='pwidth'>Grain</div><div id='pvGrain' class='pValue'></div></div>
+		<div id='pGold'><div class='pwidth'>Gold</div><div id='pvGold' class='pValue'></div></div>
+		<div id='pBonds'><div class='pwidth'>Bonds</div><div id='pvBonds' class='pValue'></div></div>
+		<div id='pOil'><div class='pwidth'>Oil</div><div id='pvOil' class='pValue'></div></div>
+		<div id='pIndust'><div class='pwidth'>Industrial</div><div id='pvIndust' class='pValue'></div></div>
+		<div id='pSilver'><div class='pwidth'>Silver</div><div id='pvSilver' class='pValue'></div></div>
+	</div>
+
+	<div id='gameChatContainer'>
+		Game Messages:  <div style='display:inline-block;' id='ticker'></div>
+		<div id='gameChat'></div>
+	</div>
+		
+	<div id='playerChatContainer'>
+		Player Chat:
+		<div id='playerChat'></div>
+		<div id='chatControls' style='display:none;'>
+			<input style ='width:75%' type="text" id="msg_text" name="msg_text" autocomplete="off"/>
+			<button style ='width:20%' id='sendChatBTN'>Send Chat!</button>
+		</div>
+	</div>
+	
+	<br>
+	
+	<div id='teamDIV'></div>	
+
+
+    
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+		var pColors=["green","red","Blue","#ff33cc","black","#66ffcc","#990000","#666633","#66ccff","#6600cc","#ff0066","plum","salmon","Chartreuse","cyan","DarkRed","Fuchsia"];
+		var clientPlayers=[];
+	
+        var socket = io.connect();		
+        
+		
+		socket.on("update chat messages", function(msg){
+			decoratedMSG=msg;
+			for (i=0;i<clientPlayers.length;i++) {
+				if (decoratedMSG.indexOf(clientPlayers[i]+":")>-1) {
+					decoratedMSG="<span style='color:" + pColors[i] + ";'>" + decoratedMSG + "</span>";
+				}
+			}
+			
+			var final_message = $("<p />").html(decoratedMSG);
+		   $("#playerChat").prepend(final_message);
+		   
+		   $("#playerChat").html=$("#playerChat").sub
+		});
+		
+		socket.on("New Player Confirm", function(msg){
+			if (msg==$("#nameTXT").val()) {
+				$('#gameArea').attr("style", "display:");
+				$('#userIDDIV').attr("style", "display:none");
+				$('#nameHDR').text("Player:  " + $("#nameTXT").val());
+				$('#playerDIV').attr("style", "display:");
+				$('#controlArea').attr("style", "display:");
+				$('#chatControls').attr("style", "display:");
+			}
+		});
+		
+		socket.on("New Player Deny", function(msg){
+			if (msg==$("#nameTXT").val()) {
+				alert($("#nameTXT").val() + " Dupicate Name already playing!!");
+			}
+		});
+		
+		socket.on("main stock update", function(msg){
+			msg=""+msg;
+			var v=msg.split(",");
+			if (v.length>=6){
+				$('#grainTXT').text(v[0]);
+				$('#goldTXT').text(v[1]);
+				$('#bondsTXT').text(v[2]);
+				$('#oilTXT').text(v[3]);
+				$('#industTXT').text(v[4]);
+				$('#silverTXT').text(v[5]);
+			}
+		});
+		
+		socket.on("players update", function(msg){
+			var obj=JSON.parse(msg);
+			var html="";
+			
+			html+="<table border='2'>";
+			html+="<tr><th>Player</th><th>Bank</th><th>Grain</th><th>Gold</th><th>Bonds</th><th>Oil</th><th>Industrial</th><th>Silver</th></tr>";
+			var name_found=false;
+			for (i=0;i<obj.length;i++){
+				html+="<tr>";
+				html+="<td>"+obj[i].name+"</td>";
+				html+="<td>"+numberWithCommas(obj[i].money)+"</td>";
+				for (j=0;j<6;j++){
+					html+="<td>"+numberWithCommas(obj[i].stocks[j])+"</td>";					
+				}
+				html+="<tr>";
+				if ($("#nameTXT").val()==obj[i].name) {					
+					$("#myMoney").text(numberWithCommas(obj[i].money));
+					$("#pvGrain").text(numberWithCommas(obj[i].stocks[0]));
+					$("#pvGold").text(numberWithCommas(obj[i].stocks[1]));
+					$("#pvBonds").text(numberWithCommas(obj[i].stocks[2]));
+					$("#pvOil").text(numberWithCommas(obj[i].stocks[3]));
+					$("#pvIndust").text(numberWithCommas(obj[i].stocks[4]));
+					$("#pvSilver").text(numberWithCommas(obj[i].stocks[5]));
+					name_found=true;
+				}
+				if (!clientPlayers.includes(obj[i].name)) { //add new players to name list
+					clientPlayers.push(obj[i].name);
+				}
+			}
+			html+="</table>";
+			$('#teamDIV').html(html);
+			if (!name_found) {
+				$('#gameArea').attr("style", "display:none;");
+				$('#userIDDIV').attr("style", "display:");
+				//$('#nameHDR').text("Player:  " + $("#nameTXT").val());
+				$('#playerDIV').attr("style", "display:none");
+				$('#controlArea').attr("style", "display:none");
+				$('#chatControls').attr("style", "display:none");
+			}
+		});
+		
+		socket.on("game chat", function(msg){
+			if (msg.indexOf("***Game Reset by ")>-1) $("#gameChat").html("");
+			if (msg.indexOf(": set speed slow")>-1) $("#speedBTN").text("Slow");
+			if (msg.indexOf(": set speed medium")>-1) $("#speedBTN").text("Medium");
+			if (msg.indexOf(": set speed fast")>-1) $("#speedBTN").text("Fast");
+			
+			msg=decorator(msg);
+			
+			if (msg.indexOf("Dividend")>-1 || msg.indexOf("Up")>-1 || msg.indexOf("Down")>-1 || msg.indexOf("SPLIT")>-1 || msg.indexOf("MARKET")>-1) {
+				$("#ticker").html(msg);
+			}
+			
+			var final_message = $("<p />").html(msg);
+			
+		   $("#gameChat").prepend(final_message);
+		});
+    </script>
+	<script type="text/javascript">
+			
+		$(function() {
+		
+			$('#resetBTN').click(function() {
+				if (confirm("Ok to reset entire Game?")) {
+					socket.emit("game control", "***Game Reset by " + $("#nameTXT").val() + "***!", function() {
+					//;
+					});					
+				} 
+				
+			});
+			
+			$('#resetServerBTN').click(function() {
+				if (confirm("Ok to reset server? (this will clear all players!)")) {
+					socket.emit("game control", "***Server Reset by " + $("#nameTXT").val() + "***!", function() {
+					//;
+					});					
+				} 
+				
+			});
+		
+			$('#nameBTN').click(function() {
+				if ($("#nameTXT").val()=="") {
+					alert("Name cannot be blank");
+					return;
+				}
+				socket.emit("New Player", $("#nameTXT").val(), function() {
+					$("#msg_text").val("");
+				});
+			});
+			
+			$('#sendChatBTN').click(function() {
+				socket.emit("send message", "<b>" + $("#nameTXT").val() + ":</b> " + $("#msg_text").val(), function() {
+					$("#msg_text").val("");
+				});
+			});
+			
+					
+			$('#buyBTN').click(function() {
+				var packet={
+					name:"dummy",
+					amount:"0",
+					stock:"stock"
+				}				
+				packet.name=$("#nameTXT").val();
+				packet.amount=$("#amountBTN").text();
+				packet.stock=$("#stockBTN").text();
+				socket.emit("buy", JSON.stringify(packet), function() {
+					
+				});
+			});
+			
+			$('#sellBTN').click(function() {
+				var packet={
+					name:"dummy",
+					amount:"0",
+					stock:"stock"
+				}				
+				packet.name=$("#nameTXT").val();
+				packet.amount=$("#amountBTN").text();
+				packet.stock=$("#stockBTN").text();
+				socket.emit("sell", JSON.stringify(packet), function() {
+					
+				});
+			});
+			
+			
+
+		});
+		
+		
+		function stockBTNCLK() {			
+			if ($("#stockBTN").text()=="Grain") {
+				$("#stockBTN").text("Gold");
+				$("#stockBTN").css("background-color","gold");
+				return;
+			}
+			if ($("#stockBTN").text()=="Gold") {
+				$("#stockBTN").text("Bonds");
+				$("#stockBTN").css("background-color","#009933");
+				return;
+			}
+			if ($("#stockBTN").text()=="Bonds") {
+				$("#stockBTN").text("Oil");
+				$("#stockBTN").css("background-color","#e67300");
+				return;
+			}
+			if ($("#stockBTN").text()=="Oil") {
+				$("#stockBTN").text("Industrial");
+				$("#stockBTN").css("background-color","#ffb3d9");
+				return;
+			}
+			if ($("#stockBTN").text()=="Industrial") {
+				$("#stockBTN").text("Silver");
+				$("#stockBTN").css("background-color","silver");
+				return;
+			}
+			if ($("#stockBTN").text()=="Silver") {
+				$("#stockBTN").text("Grain");
+				$("#stockBTN").css("background-color","wheat");
+				return;
+			}
+		}
+			
+		function astockCLK(n) {
+			if (n==1) {
+				$("#stockBTN").text("Grain");
+				$("#stockBTN").css("background-color","wheat");
+			}
+			if (n==2) {
+				$("#stockBTN").text("Gold");
+				$("#stockBTN").css("background-color","gold");
+			}
+			if (n==3) {
+				$("#stockBTN").text("Bonds");
+				$("#stockBTN").css("background-color","#009933");
+			}
+			if (n==4) {
+				$("#stockBTN").text("Oil");
+				$("#stockBTN").css("background-color","#e67300");
+			}
+			if (n==5) {
+				$("#stockBTN").text("Industrial");
+				$("#stockBTN").css("background-color","#ffb3d9");
+			}
+			if (n==6) {
+				$("#stockBTN").text("Silver");
+				$("#stockBTN").css("background-color","silver");
+			}
+			
+		}
+		
+		function amtBTNCLK() {
+			if ($("#amountBTN").text()=="100") {
+				$("#amountBTN").text("500");
+				$("#amountBTN").css("background-color","yellow");
+				return;
+			}
+			if ($("#amountBTN").text()=="500") {
+				$("#amountBTN").text("1000");
+				$("#amountBTN").css("background-color","yellow");
+				return;
+			}
+			if ($("#amountBTN").text()=="1000") {
+				$("#amountBTN").text("5000");
+				$("#amountBTN").css("background-color","yellow");
+				return;
+			}
+			if ($("#amountBTN").text()=="5000") {
+				$("#amountBTN").text("100000");
+				$("#amountBTN").css("background-color","yellow");
+				return;
+			}
+			if ($("#amountBTN").text()=="100000") {
+				$("#amountBTN").text("100");
+				$("#amountBTN").css("background-color","yellow");
+				return;
+			}
+		}
+		
+		function speedBTNCLK () {
+			if ($("#speedBTN").text()=="Slow") {				
+				$("#speedBTN").text("Medium");
+				socket.emit("new speed", $("#nameTXT").val() + ": set speed medium.", function() {
+					//;
+				});
+				return;
+			}
+			if ($("#speedBTN").text()=="Medium") {				
+				$("#speedBTN").text("Fast");
+				socket.emit("new speed", $("#nameTXT").val() + ": set speed fast.", function() {
+					//;
+				});
+				return;
+			}
+			if ($("#speedBTN").text()=="Fast") {				
+				$("#speedBTN").text("Slow");	
+				socket.emit("new speed", $("#nameTXT").val() + ": set speed slow.", function() {
+					//;
+				});
+				return;
+			}
+		}
+		
+		function decorator(s) {
+			str=s;			
+			str=str.replace("Grain","<span style='background-color:wheat;'>Grain</span>");
+			str=str.replace("Gold","<span style='background-color:gold;'>Gold</span>");
+			str=str.replace("Bonds","<span style='background-color:#009933;'>Bonds</span>");
+			str=str.replace("Oil","<span style='background-color:#e67300;'>Oil</span>");
+			str=str.replace("Industrial","<span style='background-color:#ffb3d9;'>Industrial</span>");
+			str=str.replace("Silver","<span style='background-color:silver;'>Silver</span>");
+			str=str.replace("medium","<span style='color:red;'>medium</span>");
+			str=str.replace("fast","<span style='color:red;'>fast</span>");
+			str=str.replace("slow","<span style='color:red;'>slow</span>");
+			
+			str=str.replace("Down","<span style='color:red;background-color:silver;'><b>Down</b></span>");
+			str=str.replace("Up","<span style='color:green;background-color:silver;'><b>Up</b></span>");
+			str=str.replace("Dividend","<span style='color:blue;background-color:yellow;'><b>Dividend</b></span>");
+			return str;
+		}
+		
+		function numberWithCommas(x) {
+			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+		
+		//check for keypress 'enter' in textboxes
+		$("#msg_text").keyup(function(event) {
+			if (event.keyCode === 13) {
+				$("#sendChatBTN").click();
+			}
+		});
+		$("#nameTXT").keyup(function(event) {
+			if (event.keyCode === 13) {
+				$("#nameBTN").click();
+			}
+		});
+	</script>
+</body>
+
+</html>
