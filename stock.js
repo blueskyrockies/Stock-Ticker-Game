@@ -234,7 +234,7 @@ function rollDice() {
 	if (div=="Dividend") {
 		if(stocks[s]>=100){
 			for(i=0;i<players.length;i++) {
-				mydiv=Math.round(players[i].stocks[s]*amt/10);
+				mydiv=Math.round(players[i].stocks[s]*amt/100);
 				if (mydiv>0) {
 					io.sockets.emit("game chat", "**" + stock + " Payout " + players[i].name + " $" + mydiv);
 					players[i].money+=mydiv;
